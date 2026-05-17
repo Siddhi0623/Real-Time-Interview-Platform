@@ -2,7 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-const handler = NextAuth({
+const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
@@ -30,7 +30,7 @@ const handler = NextAuth({
     signIn: "/login",
   },
   session: { strategy: "jwt" },
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || "signalroom-fallback-secret-2026",
   callbacks: {
     async session({ session, token }) {
       if (session.user) {
@@ -39,6 +39,7 @@ const handler = NextAuth({
       return session;
     },
   },
-});
+};
 
+const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
