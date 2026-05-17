@@ -57,9 +57,9 @@ export default function LoginPage() {
     }
   };
 
-  const handleGoogleLogin = async () => {
+  const handleGoogleLogin = () => {
     setGoogleLoading(true);
-    await signIn("google", { callbackUrl: "/" });
+    window.location.href = "/api/auth/signin/google?callbackUrl=%2F";
   };
 
   return (
